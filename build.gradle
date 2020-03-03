@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        // Needed for the Endpoints Framework Gradle Plugin V2
+        classpath 'com.google.guava:guava:24.1-jre'
+        // The Android Gradle plugin
+        classpath 'com.android.tools.build:gradle:3.5.3'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+//  Create a Gradle task that:
+//      1. Launches the GCE local development server.
+//      2. Runs all tests.
+//      3. Shuts the server down again.
+task jokesTester {
+    group('verification')
+    dependsOn(['startLocalServer', 'runIntegrationTests', 'stopLocalServer'])
+}
+
+task startLocalServer {
+    dependsOn ':backend:appengineStart'
+    evaluationDependsOn(':backend')
+}
+
+task runIntegrationTests {
+    dependsOn 'app:connectedAndroidTest'
+    mustRunAfter 'startLocalServer'
+}
+
+task stopLocalServer {
+    dependsOn ':backend:appengineStop'
+    mustRunAfter 'runIntegrationTests'
+}
+
