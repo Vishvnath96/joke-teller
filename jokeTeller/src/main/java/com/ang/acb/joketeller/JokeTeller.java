@@ -1,10 +1,17 @@
 package com.ang.acb.joketeller;
 
+import java.util.Random;
+
 public class JokeTeller {
 
+    private final String[] jokes = {
+            "This is a funny joke",
+            "This is also a funny joke",
+            "And this one too!"
+    };
+
     public String tellJoke() {
-        return "A QA engineer walks into a bar. Orders a beer. Orders 0 beers. Orders 99999999999 beers. Orders a lizard. Orders a ueicbksjdhd. \n" +
-                "\n" +
-                "First real customer walks in and asks where the bathroom is. The bar bursts into flames, killing everyone.";
+        int jokeIndex = new Random().nextInt(jokes.length);
+        return jokes[jokeIndex];
     }
 }
